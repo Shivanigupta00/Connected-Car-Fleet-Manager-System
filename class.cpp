@@ -68,11 +68,11 @@ Vehicle_data*queryVehicle(const string& VIN){
     }
     return {};
 }
-
+//deleted vehicle acc to VIN
 void deleteVehicle(const string& VIN){
     vehicles.erase(VIN);
 }
-
+//generate Alerts
 void generateAlerts(const string& VIN, const Telemetry_data&data){
     const double speed_limit = 100.0;
     const double low_fuel = 15.0;
@@ -84,6 +84,135 @@ void generateAlerts(const string& VIN, const Telemetry_data&data){
         alerts[id++]={id-1,VIN,"Fuel is low","it is below 15%",data.timestamp};
     }
 }
+// extract previous data
+void extractTelemetry_data(const string&VIN,const Telemetry_data&data){
+    Vehicle_data*veh = queryVehicle(VIN);
+    if(veh){
+        veh->previous_data.push_back(data);
+        generateAlerts(VIN,data);
+    }else{
+        throw runtime_error("vehicle is not found");
+    }
+}
+
+vector<Telemetry_data>getpreviousdata(const string& VIN){
+    Vehicle_data*veh = queryVehicle(VIN);
+    if(veh){
+        return veh->previous_data;
+    }
+    return {};
+}
+//updating telementary data
+Telemetry_data*getUpdateTele_data(const string&VIN){
+    Vehicle_data* veh = queryVehicle(VIN);
+    if(!veh->previous_data.empty()){
+        return &(veh->previous_data.back());
+    }
+    return {};
+}
+//alerting all queries 
+vector<Alert>all_query_alerts(){
+    vector<Alert>all_alerts;
+    for(auto it : alerts){
+        all_alerts.push_back(it.second);
+    }
+    return all_alerts;
+}
+
+Alert*alertbyId(int id){
+    auto it = alerts.find(id);
+    if(it!= alerts.end()){
+        return &(it->second);
+    }
+    return {};
+}
+
+int main(){
+    cout<<"---Dummy Data making..."<<endl;
+    generate_vehicle("VIN01","Tesla","Model 1","Fleet 01","Sneha", ACTIVE);
+    generate_vehicle("VIN02","BMW","Model 2","Fleet 02","Shalini",ACTIVE);
+    generate_vehicle("VIN03","Ford","Model 3","Fleet 03","xyz",MAINTENANCE);
+    
+    
+
+    cout<<".........total vehicles and VIN and model name....."<<endl;
+    vector<Vehicle_data>veh = list_All_vehicle();
+    int total_vehicles = veh.size();
+    cout<<"Total vehicles="<<total_vehicles<<endl;
+    for(auto v: veh){
+        cout<<"VIN="<<v.VIN<<endl;
+        cout<<"Model="<<v.model<<endl;
+
+    }
+    //query is found or not
+    cout<<"........query is found or not....."<<endl;
+    Vehicle_data*vehicle_query = queryVehicle("VIN01");
+    if(vehicle_query){
+        cout<<"Found query"<<vehicle_query->manufacture<<endl;
+        cout<<vehicle_query->model<<endl;
+    }else{
+        cout<<"NOt found"<<endl;
+    }
+
+    //Deleting query
+    cout<<".........Deleting query....."<<endl;
+    cout<<"Deleting VIN03"<<endl;
+    deleteVehicle("VIN03");
+
+    //after deletion
+    cout<<".........after deletion...."<<endl;
+    cout<<"Total vehicle="<<list_All_vehicle().size()<<endl;
+    for(auto v: list_All_vehicle()){
+        cout<<"VIN="<<v.VIN<<endl;
+        cout<<"Model="<<v.model<<endl;
+
+    }
+    return 0;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
