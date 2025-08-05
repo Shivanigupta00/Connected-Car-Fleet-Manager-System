@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include<ctime>
 using namespace std;
 
 
@@ -31,6 +32,7 @@ struct Vehicle_data {
     string owner;
     RegistrationStatus status;
     vector<Telemetry_data> previous_data;
+    long long lasttelemetry_timestamp;
 };
 
 struct Alert {
@@ -89,7 +91,7 @@ void extractTelemetry_data(const string&VIN,const Telemetry_data&data){
     Vehicle_data*veh = queryVehicle(VIN);
     if(veh){
         veh->previous_data.push_back(data);
-        generateAlerts(VIN,data);
+        generateAlerts(VIN,data); //give alerts information
     }else{
         throw runtime_error("vehicle is not found");
     }
@@ -126,6 +128,48 @@ Alert*alertbyId(int id){
     }
     return {};
 }
+// ......basic analytics 
+// active and inactive vehicles
+int checkActive_count(){
+    int count = 0;
+    long long currentTime = time(0);
+    for(const auto& it :vehicles){
+        if(it.second.lasttelemetry_timestamp > 0 && (currentTime - it.second.lasttelemetry_timestamp)<=24*3600){
+            count++;
+        }
+    }
+    return count;
+}
+//average fuel of Vehicles
+double AverageFuel() {
+    double totalFuel = 0.0;
+    int vehicleCount = 0;
+    for (const auto& it : vehicles) {
+        if (!it.second.previous_data.empty()) {
+            totalFuel += it.second.previous_data.back().battery_level;
+            vehicleCount++;
+        }
+    }
+
+    if(vehicleCount >0){
+        return totalFuel/vehicleCount;
+    }else{
+        return 0.0;
+    }
+}
+// Total distance travelled by fleet in 24 hrs
+
+
+
+
+    
+
+
+
+
+
+
+
 
 int main(){
     cout<<"---Dummy Data making..."<<endl;
@@ -167,10 +211,34 @@ int main(){
         cout<<"Model="<<v.model<<endl;
 
     }
+    cout<<"\n--- Fleet Analytics ---"<<endl;
+    cout<<"Active vehicles count: "<<checkActive_count()<<endl;
+    cout<<"Average fuel level: "<<AverageFuel()<<endl;
     return 0;
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
