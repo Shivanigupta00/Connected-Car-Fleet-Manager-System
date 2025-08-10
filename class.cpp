@@ -157,18 +157,6 @@ double AverageFuel() {
         return 0.0;
     }
 }
-// Total distance travelled by fleet in 24 hrs
-
-
-
-
-    
-
-
-
-
-
-
 
 
 int main(){
