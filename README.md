@@ -9,23 +9,23 @@ A C++ console-based system to manage connected vehicle data, including telemetry
 
 2. Telemetry Data Handling
 -Store:
-Latitude & Longitude
-Speed
-Engine status
-Battery level
-Odometer readings
-Diagnostic codes
+,Latitude & Longitude
+,Speed
+,Engine status
+,Battery level
+,Odometer readings
+,Diagnostic codes
 
 3. Alert System
-Generates alerts for:
-Overspeeding (> 100 km/h)
-Low battery (< 15%)
+-Generates alerts for:
+,Overspeeding (> 100 km/h)
+,Low battery (< 15%)
 
 4. Analytics
-Count active vehicles (last telemetry within 24 hours).
-Calculate average fuel (battery) levels.
+-Count active vehicles (last telemetry within 24 hours).
+,Calculate average fuel (battery) levels.
 
 5. Data Storage
-Maintains historical telemetry data.
-Keeps an alert history for vehicles.
+-Maintains historical telemetry data.
+,Keeps an alert history for vehicles.
 
