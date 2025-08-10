@@ -1,24 +1,39 @@
+Connected Car Fleet Manager System
 A C++ console-based system to manage connected vehicle data, including telemetry tracking, alert generation, and fleet analytics.
-Features
--Vehicle Management
 
---Add, list, query, and delete vehicles.
+🚗 Features
+1. Vehicle Management
+Add, list, query, and delete vehicles.
 
--Telemetry Data Handling
+2. Telemetry Data Handling
+Store:
 
---Store latitude, longitude, speed, engine status, battery level, odometer readings, and diagnostic codes.
+Latitude & Longitude
 
--Alert System
+Speed
 
---Generates alerts for overspeeding (>100 km/h) and low battery (<15%).
+Engine status
 
--Analytics
+Battery level
 
---Count active vehicles (last telemetry within 24 hours).
+Odometer readings
 
---Calculate average fuel (battery) levels.
+Diagnostic codes
 
--Data Storage
+3. Alert System
+Generates alerts for:
 
---Maintains historical telemetry data and alert history.
+Overspeeding (> 100 km/h)
+
+Low battery (< 15%)
+
+4. Analytics
+Count active vehicles (last telemetry within 24 hours).
+
+Calculate average fuel (battery) levels.
+
+5. Data Storage
+Maintains historical telemetry data.
+
+Keeps an alert history for vehicles.
 
